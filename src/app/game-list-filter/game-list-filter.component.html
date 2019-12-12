@@ -1,3 +1,13 @@
-<p>
-  game-list-filter works!
-</p>
+<form action="">
+
+  <input type="text" name="gameName" id="gameName" placeholder="Nom du jeu">
+  <select name="gameTypes" id="gameTypes">
+    <option value="" selected>Selectionner un type</option>
+    <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+  </select>
+  <input type="text" name="gameEditeur" id="gameEditeur" placeholder="Nom de l'éditeur">
+
+  <button type="submit"> Filtrer</button>
+  <button type="reset"> Reset</button>
+  
+</form>

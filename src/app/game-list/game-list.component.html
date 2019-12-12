@@ -1,3 +1,29 @@
-<p>
-  game-list works!
-</p>
+<section class="searchGame">
+
+    <app-game-list-filter></app-game-list-filter>
+
+</section>
+
+<section class="gameList">
+  <article class="card" *ngFor="let game of games">
+    <header>
+      <figure>
+        <img class="iconeGame" [src]="game.iconeUrl" [alt]="game.name">
+      </figure>
+      <div class="name_type">
+          <h1>{{ game.name }}</h1>
+          <span class="type">Type : {{ game.type}}</span>
+      </div>
+      <span class="note">Note : {{ game.note }} / 10</span>
+    </header>
+
+
+    <figure class="imgGame">
+      <img [src]="game.imageUrl" [alt]="game.name">
+    </figure>
+
+    <p class="description">{{ LimitDescrip(game.description) }}</p>
+
+  </article>
+</section>
+
