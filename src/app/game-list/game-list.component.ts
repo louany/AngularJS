@@ -1,5 +1,8 @@
-import { Component, OnInit, Output } from '@angular/core';
-import { EventEmitter } from 'protractor';
+import { GameFilter } from './../game-list-filter/game-list-filter.component';
+import { Component, OnInit } from '@angular/core';
+
+import { Game } from './game';
+import { GameActions } from './game-actions';
 
 @Component({
   selector: 'app-game-list',
@@ -7,51 +10,99 @@ import { EventEmitter } from 'protractor';
   styleUrls: ['./game-list.component.scss']
 })
 export class GameListComponent implements OnInit {
-    games = [
-      {
-        id: 1,
-        name : 'jeu 1',
-        type: 'FPS', 
-        imageUrl : 'http://fr.web.img2.acsta.net/r_640_360/newsv7/19/10/02/14/40/0264113.jpg',
-        iconeUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMEYc7ERs9Xhq2F-Wi6KlgGaW5ve1_QsUc920myzTxBt3pOPrI&s',
-        note : 3,
-        description : 'Siquis enim militarium vel honoratorum aut nobilis inter suos rumore tenus esset insimulatus fovisse partes hostiles, iniecto onere catenarum in modum beluae trahebatur et inimico urgente vel nullo, quasi sufficiente hoc solo, quod nominatus esset aut delatus aut postulatus, capite vel multatione bonorum aut insulari solitudine damnabatur.'
-      },
-      {
-        id: 2,
-        name : 'jeu 2',
-        type: 'Aventure', 
-        imageUrl : 'https://img.phonandroid.com/2019/11/resident-evil-3-ps4-officiel.jpg',
-        iconeUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMEYc7ERs9Xhq2F-Wi6KlgGaW5ve1_QsUc920myzTxBt3pOPrI&s',
-        note : 2,
-        description : 'lolllazdzd '
-      },
-      {
-        id: 3,
-        name : 'jeu 3',
-        type: 'RPG', 
-        imageUrl : 'https://www.loutrage.fr/wp-content/uploads/2017/05/final_fantasy_XV_entete.png',
-        iconeUrl : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMEYc7ERs9Xhq2F-Wi6KlgGaW5ve1_QsUc920myzTxBt3pOPrI&s',
-        note : 5,
-        description : 'loremp'
-      }
-    ]
-  constructor() { 
-  }
+
+  defaultSize = 300;
+  width = this.defaultSize;
+
+  entities: Game[] = [{
+    id: 1,
+    name: 'BattleBlock Theater',
+    description: 'Shipwrecked. Captured. Betrayed. Forced to perform for an audience of cats? '
+      + 'Yes, all that and more when you unlock BattleBlock Theater!'
+      + ' There\'s no turning back once you\'ve started on your quest to free over 300 of your imprisoned '
+      + 'friends from evil technological cats. ',
+    editor: 'The Behemoth',
+    image: 'https://steamcdn-a.akamaihd.net/steam/apps/238460/header.jpg?t=1561397233',
+    note: 9.8,
+    category: 'RPG'
+  }, {
+    id: 2,
+    name: 'Call Of Duty 32',
+    description: 'Toujours plus ... ',
+    editor: 'Activision',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/CallofDutyLogo.svg/310px-CallofDutyLogo.svg.png',
+    note: 8,
+    category: 'FPS'
+  }, {
+    id: 2,
+    name: 'BattleBlock Theater 2',
+    description: 'Shipwrecked. Captured. Betrayed. Forced to perform for an audience of cats? '
+      + 'Yes, all that and more when you unlock BattleBlock Theater!'
+      + ' There\'s no turning back once you\'ve started on your quest to free over 300 of your imprisoned '
+      + 'friends from evil technological cats. ',
+    editor: 'The Behemoth',
+    image: 'https://steamcdn-a.akamaihd.net/steam/apps/238460/header.jpg?t=1561397233',
+    note: 9.8,
+    category: 'RPG'
+  }, {
+    id: 3,
+    name: 'BattleBlock Theater 2',
+    description: 'Shipwrecked. Captured. Betrayed. Forced to perform for an audience of cats? '
+      + 'Yes, all that and more when you unlock BattleBlock Theater!'
+      + ' There\'s no turning back once you\'ve started on your quest to free over 300 of your imprisoned '
+      + 'friends from evil technological cats. ',
+    editor: 'The Behemoth',
+    image: 'https://steamcdn-a.akamaihd.net/steam/apps/238460/header.jpg?t=1561397233',
+    note: 9.8,
+    category: 'RPG'
+  }, {
+    id: 4
+    ,
+    name: 'BattleBlock Theater 2',
+    description: 'Shipwrecked. Captured. Betrayed. Forced to perform for an audience of cats? '
+      + 'Yes, all that and more when you unlock BattleBlock Theater!'
+      + ' There\'s no turning back once you\'ve started on your quest to free over 300 of your imprisoned '
+      + 'friends from evil technological cats. ',
+    editor: 'The Behemoth',
+    image: 'https://steamcdn-a.akamaihd.net/steam/apps/238460/header.jpg?t=1561397233',
+    note: 9.8,
+    category: 'RPG'
+  }];
+
+  filteredEntities = this.entities;
+
+  constructor() { }
+
   ngOnInit() {
+    // this.width = document.querySelector('article').offsetWidth;
   }
 
-  LimitDescrip(description){
+  truncate(value: string) {
+    const words = value.split(' ', 20);
 
-    if( description.split(' ').length <= 20 ){
-        return description;
-    } else {
-        return description.split(' ', 20).join(' ') + '...';
-    }
+    return words.join(' ') + (words.length > 20 ? + '...' : '');
   }
 
-  onClickBtn(value: string, gameName: string) {
-    alert('Le bouton suivant à été cliqué : ' + value + 
-      '\nSur le jeux : ' + gameName )
+  sizeUp() {
+    this.width += 10;
+  }
+
+  sizeDown() {
+    this.width = Math.max(100, this.width - 10);
+  }
+
+  sizeReset() {
+    this.width = this.defaultSize;
+  }
+
+  onActionClick(action: GameActions, game: Game) {
+    alert(`${['follow', 'share', 'buy'][action]} the game nammed ${game.name}`);
+  }
+
+  onFilter(filterForm: GameFilter) {
+    this.filteredEntities = this.entities
+        .filter(e => (!filterForm.name || e.name.toLocaleLowerCase().includes(filterForm.name))
+            && (!filterForm.category || e.category === filterForm.category)
+            && (!filterForm.editor || e.editor.toLowerCase().includes(filterForm.editor)));
   }
 }

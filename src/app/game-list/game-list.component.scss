@@ -1,59 +1,30 @@
-.searchGame{
-    form{
-        margin:auto;
-    }
-}
-.gameList{
-    margin-top:5em;
-    clear:both;
+$width: 300px;
+
+section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
-.card{
-    height: auto;
-    max-height: 25em;
-    float: left;
-    min-height: 25em;
-    width: calc(50% - 3em);
-    background-color: #f8f8f8;
-    margin: 1.5em;
-    box-shadow: 0px 0px 9px -2px #f1f1f1;
-    border: 1px solid #eaeaea;
-    header{
-        display: flex;
-        position:relative;
-        padding: .75em;
-        .name_type{
-            margin-left:.75em;
-        }
-        .iconeGame{
-            width:60px;
-        }
-        .note{
-            position:absolute;
-            top: .75em;
-            right:.75em;
-        }
-    }
-    .imgGame{
-        clear:both;
-        overflow: hidden;
-        img{
-            max-height: 10em;
-            min-height: 10em;
-            object-fit: cover;
-            width: 100%;
-        }
-    }
-    .description{
-        padding:.75em;
-        min-height: 7em;
+article {
+  width: $width;
+  margin: 5px;
+  border: 1px solid silver;
+
+  header {
+    display: flex;
+    align-items: center;
+
+    .spacer {
+      flex: 1;
     }
 
-    @media (max-width: 480px) {
-
-        div.card{
-            width:calc(100% - 2em);
-        }
-        
+    &+img {
+      width: $width;
     }
+  }
+
+  &:hover { border: 1px solid blue; }
+
+  footer { margin-top: 10px; }
 }

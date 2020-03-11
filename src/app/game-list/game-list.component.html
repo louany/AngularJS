@@ -1,30 +1,35 @@
-<section class="searchGame">
+<h1>Jeux disponibles</h1>
 
-    <app-game-list-filter></app-game-list-filter>
+<app-game-list-filter (filter)="onFilter($event)"></app-game-list-filter>
 
-</section>
+<div>
+  <button (click)="sizeDown()">-</button>
+  <button (click)="sizeUp()">+</button>
+  <button (click)="sizeReset()">100%</button>
+</div>
 
-<section class="gameList">
-  <article class="card" *ngFor="let game of games">
+<section>
+  <article *ngFor="let game of filteredEntities" [ngStyle]="{'width': width + 'px'}">
     <header>
-      <figure>
-        <img class="iconeGame" [src]="game.iconeUrl" [alt]="game.name">
-      </figure>
-      <div class="name_type">
-          <h1>{{ game.name }}</h1>
-          <span class="type">Type : {{ game.type}}</span>
+      <img src="http://fakeimg.pl/50" alt="editor">
+      <div>
+        <h1>{{ game.name }}</h1>
+        <p>{{ game.category }}</p>
       </div>
-      <span class="note">Note : {{ game.note }} / 10</span>
+      <div class="spacer"></div>
+      <p>{{ game.note }}/10</p>
     </header>
 
+    <img [src]="game.image" alt="game logo">
 
-    <figure class="imgGame">
-      <img [src]="game.imageUrl" [alt]="game.name">
-    </figure>
+    <main>
+      {{ truncate(game.description) }}
+    </main>
 
-    <p class="description">{{ LimitDescrip(game.description) }}</p>
-    <app-game-btn (valueBtn)="onClickBtn($event, game.name)"></app-game-btn>
-
+    <footer>
+      <app-game-actions
+          (click)="onActionClick($event, game)">
+      </app-game-actions>
+    </footer>
   </article>
 </section>
-
