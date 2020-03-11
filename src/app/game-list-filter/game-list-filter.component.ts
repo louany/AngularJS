@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-game-list-filter',
@@ -7,13 +7,16 @@ import { Component } from '@angular/core';
 })
 export class GameListFilterComponent {
 
-   types;
-
-
-   constructor(){
-
-    this.types = ['RPG', 'FPS', 'Simulation', 'Action', 'Aventure' ];
+    types = [];
     
+    @Input()
+    categories = ['RPG', 'FPS', 'Simulation', 'Action', 'Aventure' ];
+
+
+
+    constructor(){
+
+   
    }
 
 }

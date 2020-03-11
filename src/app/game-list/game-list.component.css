@@ -1,0 +1,53 @@
+.searchGame form {
+  margin: auto;
+}
+.gameList {
+  margin-top: 5em;
+  clear: both;
+}
+.card {
+  height: auto;
+  max-height: 25em;
+  float: left;
+  min-height: 25em;
+  width: calc(50% - 3em);
+  background-color: #f8f8f8;
+  margin: 1.5em;
+  box-shadow: 0px 0px 9px -2px #f1f1f1;
+  border: 1px solid #eaeaea;
+}
+.card header {
+  display: flex;
+  position: relative;
+  padding: 0.75em;
+}
+.card header .name_type {
+  margin-left: 0.75em;
+}
+.card header .iconeGame {
+  width: 60px;
+}
+.card header .note {
+  position: absolute;
+  top: 0.75em;
+  right: 0.75em;
+}
+.card .imgGame {
+  clear: both;
+  overflow: hidden;
+}
+.card .imgGame img {
+  max-height: 10em;
+  min-height: 10em;
+  object-fit: cover;
+  width: 100%;
+}
+.card .description {
+  padding: 0.75em;
+  min-height: 7em;
+}
+@media (max-width: 480px) {
+  .card div.card {
+    width: calc(100% - 2em);
+  }
+}

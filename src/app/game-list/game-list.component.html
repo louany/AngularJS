@@ -23,6 +23,7 @@
     </figure>
 
     <p class="description">{{ LimitDescrip(game.description) }}</p>
+    <app-game-btn (valueBtn)="onClickBtn($event, game.name)"></app-game-btn>
 
   </article>
 </section>

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { fips } from 'crypto';
+import { Component, OnInit, Output } from '@angular/core';
+import { EventEmitter } from 'protractor';
 
 @Component({
   selector: 'app-game-list',
@@ -48,5 +48,10 @@ export class GameListComponent implements OnInit {
     } else {
         return description.split(' ', 20).join(' ') + '...';
     }
+  }
+
+  onClickBtn(value: string, gameName: string) {
+    alert('Le bouton suivant à été cliqué : ' + value + 
+      '\nSur le jeux : ' + gameName )
   }
 }
