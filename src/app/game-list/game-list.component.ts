@@ -1,8 +1,11 @@
-import { GameFilter } from './../game-list-filter/game-list-filter.component';
+
 import { Component, OnInit } from '@angular/core';
 
-import { Game } from './game';
 import { GameActions } from './game-actions';
+import { GameApiService } from '../game-api.service';
+import { Game } from 'src/core/models/game';
+import { GameFilter } from 'src/core/models/gameFilter';
+
 
 @Component({
   selector: 'app-game-list',
@@ -14,68 +17,19 @@ export class GameListComponent implements OnInit {
   defaultSize = 300;
   width = this.defaultSize;
 
-  entities: Game[] = [{
-    id: 1,
-    name: 'BattleBlock Theater',
-    description: 'Shipwrecked. Captured. Betrayed. Forced to perform for an audience of cats? '
-      + 'Yes, all that and more when you unlock BattleBlock Theater!'
-      + ' There\'s no turning back once you\'ve started on your quest to free over 300 of your imprisoned '
-      + 'friends from evil technological cats. ',
-    editor: 'The Behemoth',
-    image: 'https://steamcdn-a.akamaihd.net/steam/apps/238460/header.jpg?t=1561397233',
-    note: 9.8,
-    category: 'RPG'
-  }, {
-    id: 2,
-    name: 'Call Of Duty 32',
-    description: 'Toujours plus ... ',
-    editor: 'Activision',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/CallofDutyLogo.svg/310px-CallofDutyLogo.svg.png',
-    note: 8,
-    category: 'FPS'
-  }, {
-    id: 2,
-    name: 'BattleBlock Theater 2',
-    description: 'Shipwrecked. Captured. Betrayed. Forced to perform for an audience of cats? '
-      + 'Yes, all that and more when you unlock BattleBlock Theater!'
-      + ' There\'s no turning back once you\'ve started on your quest to free over 300 of your imprisoned '
-      + 'friends from evil technological cats. ',
-    editor: 'The Behemoth',
-    image: 'https://steamcdn-a.akamaihd.net/steam/apps/238460/header.jpg?t=1561397233',
-    note: 9.8,
-    category: 'RPG'
-  }, {
-    id: 3,
-    name: 'BattleBlock Theater 2',
-    description: 'Shipwrecked. Captured. Betrayed. Forced to perform for an audience of cats? '
-      + 'Yes, all that and more when you unlock BattleBlock Theater!'
-      + ' There\'s no turning back once you\'ve started on your quest to free over 300 of your imprisoned '
-      + 'friends from evil technological cats. ',
-    editor: 'The Behemoth',
-    image: 'https://steamcdn-a.akamaihd.net/steam/apps/238460/header.jpg?t=1561397233',
-    note: 9.8,
-    category: 'RPG'
-  }, {
-    id: 4
-    ,
-    name: 'BattleBlock Theater 2',
-    description: 'Shipwrecked. Captured. Betrayed. Forced to perform for an audience of cats? '
-      + 'Yes, all that and more when you unlock BattleBlock Theater!'
-      + ' There\'s no turning back once you\'ve started on your quest to free over 300 of your imprisoned '
-      + 'friends from evil technological cats. ',
-    editor: 'The Behemoth',
-    image: 'https://steamcdn-a.akamaihd.net/steam/apps/238460/header.jpg?t=1561397233',
-    note: 9.8,
-    category: 'RPG'
-  }];
+  // games: Game[];
+  filteredEntities: Game[];
 
-  filteredEntities = this.entities;
+  // array of all items to be paged
+  items: Array<any>;
 
-  constructor() { }
+  // current page of items
+  pageOfItems: Array<any>;
+    
+  private filterForm: GameFilter;
 
-  ngOnInit() {
-    // this.width = document.querySelector('article').offsetWidth;
-  }
+  constructor( private gameApiService : GameApiService) { }
+
 
   truncate(value: string) {
     const words = value.split(' ', 20);
@@ -96,13 +50,40 @@ export class GameListComponent implements OnInit {
   }
 
   onActionClick(action: GameActions, game: Game) {
-    alert(`${['follow', 'share', 'buy'][action]} the game nammed ${game.name}`);
+    alert(`${['delete'][action]} the game nammed ${game.title}`);
   }
 
+
   onFilter(filterForm: GameFilter) {
-    this.filteredEntities = this.entities
-        .filter(e => (!filterForm.name || e.name.toLocaleLowerCase().includes(filterForm.name))
-            && (!filterForm.category || e.category === filterForm.category)
-            && (!filterForm.editor || e.editor.toLowerCase().includes(filterForm.editor)));
+    this.filterForm = filterForm;
+    this.filter();
+  }
+
+  private filter(){
+    if(this.items)
+    if(this.filterForm)
+    this.filteredEntities = this.items.filter(game => 
+              (!this.filterForm.name || game.title.toLocaleLowerCase().includes(this.filterForm.name))
+          &&  (!this.filterForm.category || game.genres.find(genre => genre.name === (this.filterForm.category)))
+          &&  (!this.filterForm.editor || game.developer.toLowerCase().includes(this.filterForm.editor)));
+    else
+    this.filteredEntities = this.items;
+    this.pageOfItems = this.filteredEntities;
+  }
+
+  getListGames() {
+    this.gameApiService.getGames().subscribe((data)=>{
+      this.items = data;
+      this.filter();
+    });
+  }
+
+  ngOnInit() {
+    this.getListGames();
+  }
+
+  onChangePage(pageOfItems: Array<any>) {
+      // update current page of items
+      this.pageOfItems = pageOfItems;
   }
 }

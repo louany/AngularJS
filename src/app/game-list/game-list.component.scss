@@ -1,16 +1,19 @@
-$width: 300px;
-
-section {
+#game-list-result {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  background-color: rgb(180, 180, 180);
+  padding: 1rem 1.5rem;
 }
 
 article {
-  width: $width;
-  margin: 5px;
-  border: 1px solid silver;
-
+  color: #fff;
+  width: auto;
+  margin: .6rem;
+  border: 1px solid #333;
+  header, main, footer {
+    padding: .5rem;
+  }
   header {
     display: flex;
     align-items: center;
@@ -20,11 +23,15 @@ article {
     }
 
     &+img {
-      width: $width;
+      width: 100%;
     }
   }
 
   &:hover { border: 1px solid blue; }
 
-  footer { margin-top: 10px; }
+  footer { margin-top: 10px; text-align: center; }
+}
+.loader {
+  text-align: center;
+  margin-top: 4rem;
 }

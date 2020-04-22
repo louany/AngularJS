@@ -8,28 +8,38 @@
   <button (click)="sizeReset()">100%</button>
 </div>
 
-<section>
-  <article *ngFor="let game of filteredEntities" [ngStyle]="{'width': width + 'px'}">
+<ng-template #loading >
+  <p class="loader">
+    Chargement ...
+  </p>
+</ng-template>
+
+<section id="game-list-result" *ngIf="filteredEntities;else loading">
+  <article *ngFor="let item of pageOfItems" [ngStyle]="{'width': width + 'px'}">
     <header>
       <img src="http://fakeimg.pl/50" alt="editor">
       <div>
-        <h1>{{ game.name }}</h1>
-        <p>{{ game.category }}</p>
+        <h1>{{ item.title }}</h1>
+        <p *ngFor="let genre of item.genres">{{ genre.name }}</p>
       </div>
       <div class="spacer"></div>
-      <p>{{ game.note }}/10</p>
+      <p>{{ item.note }}/10</p>
     </header>
 
-    <img [src]="game.image" alt="game logo">
+    <img [src]="item.coverImage" alt="game logo">
 
     <main>
-      {{ truncate(game.description) }}
+      {{ truncate(item.description) }}
     </main>
 
     <footer>
       <app-game-actions
-          (click)="onActionClick($event, game)">
+          (click)="onActionClick($event, item)">
       </app-game-actions>
     </footer>
   </article>
 </section>
+
+<div class="card-footer pb-0 pt-3">
+  <jw-pagination [items]="items" (changePage)="onChangePage($event)"></jw-pagination>
+</div>
